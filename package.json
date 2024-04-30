@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@prisma/client": "^3.9.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.19.2",
@@ -14,6 +15,8 @@
     "mysql": "^2.18.1",
     "novel-segment": "^2.7.116",
     "pinyin-pro": "^3.20.3",
-    "pug": "^3.0.2"
+    "prisma": "^3.9.2",
+    "pug": "^3.0.2",
+    "sqlite": "^5.1.1"
   }
 }

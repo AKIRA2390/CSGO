@@ -1,7 +1,6 @@
-CSGO:
-Chinese Segmentation and Grabbing Optimizer
+# CSGO: Chinese Segmentation and Grabbing Optimizer
 
-## dependent packages:
+# dependent packages:
 Chinese Analysis Part
 * novel-segment  
 for chinese word segmentation https://www.npmjs.com/package/novel-segment
@@ -14,7 +13,11 @@ System Part
 * Express
 
 
-## Project Name Candidates
+# and more...
+more infos at:
+https://scrapbox.io/akira2390sWebAppDev/ProjectRoot
+
+# Project Name Candidates
 CHAKRA:
 Chinese
 Hanzi
@@ -50,3 +53,24 @@ Mandarin by
 Akira
 
 
+MOSAIC:
+Mandarin
+Online
+Segmentation
+And
+Information
+Companion
+
+PICTO:
+Pinyin
+Identification and
+Chinese
+Text
+Organizer
+
+ZIPS:
+ZhongWen
+Input
+and
+Parsing
+System
