@@ -9,3 +9,29 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Dictinary {
+  id    Int    @id @default(autoincrement())
+  name  String
+  words Word[]
+}
+
+model Word {
+  id           Int    @id @default(autoincrement())
+  word         String
+  pinyin       String
+  meaning      String
+  partOfSpeech String
+  hskLevel     Int
+
+  sentenceID   Int
+  sentence     Sentence  @relation(fields: [sentenceID], references: [id])
+  dictionaryID Int
+  dictionary   Dictinary @relation(fields: [dictionaryID], references: [id])
+}
+
+model Sentence {
+  id    Int    @id @default(autoincrement())
+  text  String
+  words Word[]
+}

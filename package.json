@@ -1,10 +1,4 @@
 {
-  "name": "clap",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "cookie-parser": "~1.4.4",
@@ -17,6 +11,7 @@
     "pinyin-pro": "^3.20.3",
     "prisma": "^5.13.0",
     "pug": "^3.0.2",
-    "sqlite": "^5.1.1"
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }
