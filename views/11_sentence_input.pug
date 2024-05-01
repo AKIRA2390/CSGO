@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    form(action="/input/analysis" method="POST")
+        label(for="sentence") sentence: 
+        input(type="text", id="sentence", name="sentence")
+
+        button(type="submit") Submit 

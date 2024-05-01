@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Dictinary {
+model Dictionary {
   id    Int    @id @default(autoincrement())
   name  String
   words Word[]
@@ -27,7 +27,7 @@ model Word {
   sentenceID   Int
   sentence     Sentence  @relation(fields: [sentenceID], references: [id])
   dictionaryID Int
-  dictionary   Dictinary @relation(fields: [dictionaryID], references: [id])
+  dictionary   Dictionary @relation(fields: [dictionaryID], references: [id])
 }
 
 model Sentence {
