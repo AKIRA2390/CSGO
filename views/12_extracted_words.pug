@@ -1,5 +1,34 @@
 extends layout
 
 block content
-    p= responce
-        
+    form(action="/input/analysis/selection" method="POST")
+        input(type="hidden", value=sentence, name="sentence")
+        input(type="hidden", value=responce, name="responce")
+        p= sentence
+        p= responce.translation
+        table 
+            tr 
+                th ID 
+                th Word
+                th PinYin 
+                th Meaning 
+                th POS 
+                th Level 
+                th Add?
+            each word, index in responce.words
+                tr 
+                    td= index+1
+                    td= word.word 
+                    td= word.pinyin 
+                    td= word.meaning 
+                    td= word.part_of_speech 
+                    td= word.hsk_level 
+                    td 
+                        input(type="checkbox",value=index,name="index")
+        button(type="submit") Add!  
+    
+    form(action="/input/analysis" method="POST")
+        input(type="hidden", value=word, name="sentence")
+
+        button(type="submit") regenerate 
+

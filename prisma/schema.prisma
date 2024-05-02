@@ -13,6 +13,7 @@ datasource db {
 model Dictionary {
   id    Int    @id @default(autoincrement())
   name  String
+  description String
   words Word[]
 }
 
