@@ -2,4 +2,30 @@ extends layout
 
 block content
     h1 word management
-    p= allWords
+
+    //- input(type="hidden", value=responce, name="responce")
+    form(action="/delete/words" method="POST")
+        table 
+            tr 
+                th ID 
+                th Word
+                th PinYin 
+                th Meaning 
+                th POS 
+                th Level 
+                th Delete?
+            each word, index in dictWords
+                tr 
+                    td= word.id
+                    td= word.word 
+                    td= word.pinyin 
+                    td= word.meaning 
+                    td= word.partOfSpeech 
+                    td= word.hskLevel 
+                    td 
+                        input(type="checkbox",value=word.id,name="deleteWordIDs",id=deletion)
+        button(type="submit") Delete!  
+    
+    form(action="/delete/Dicts" method="POST")
+        input(type="hidden", value=dictionaryID, name="dictionaryID")
+        button(type="submit") Delete this DICTIONARY!

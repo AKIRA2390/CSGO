@@ -39,7 +39,6 @@ router.get('/analysis/selection', function (req, res, next) {
 /* POST  selection. */
 router.post('/analysis/selection', async function (req, res, next) {
     const dictionaries = await prisma.dictionary.findMany();
-    console.log(dictionaries)
     res.render('13_dictSelection', {
         chinese: req.body.chinese,
         japanese: req.body.japanese,
@@ -62,7 +61,7 @@ router.post('/analysis/selection/createDictAndAdd', async function (req, res, ne
     // console.log(reqChinese);
     const newDict = await createDictionary(reqDictName, reqDictDescription);
 
-    const newSentence = await createSentence(reqChinese, reqJapanese);
+    const newSentence = await createSentence(reqChinese, reqJapanese, newDict.id);
 
     for (const word of reqWords) {
         await createWord(word, newDict.id, newSentence.id);
@@ -79,7 +78,7 @@ router.post('/analysis/selection/add2Dict', async function (req, res, next) {
         reqDictId = req.res.dictId;
 
     const dict = await prisma.dictionary.findUnique({
-        where:{id: reqDictId}
+        where: { id: reqDictId }
     });
     const newSentence = await createSentence(reqChinese, reqJapanese);
     for (const word of reqWords) {
@@ -101,7 +100,7 @@ async function askChatGPTforTranslation(chinese) {
                 "system",
             content:
                 `中国語の文章を与えるので、文章全体の日本語訳をした後、文章を単語ごとに分割、全ての単語についてそれぞれ拼音・単語の日本語における意味・品詞・HSKレベルを出力してください。応答はjson形式で、そしてjsonのみでお願いします。\n\
-            json例: {"japanese": "私は毎日中国語を勉強しています。","words": [ {"word": "我","pinyin": "wǒ","meaning": "私、私は","part_of_speech": "代名詞","hsk_level": 1 }, {"word": "每天","pinyin": "měitiān","meaning": "毎日","part_of_speech": "副詞","hsk_level": 1 }, {"word": "学习","pinyin": "xuéxí","meaning": "学ぶ、勉強する","part_of_speech": "動詞","hsk_level": 1 }, {"word": "汉语","pinyin": "hànyǔ","meaning": "中国語","part_of_speech": "名詞","hsk_level": 1 } ]}  \n\
+            json例: {"japanese": "私は毎日中国語を勉強しています。","words": [ {"word": "我","pinyin": "wǒ","meaning": "私、私は","partOfSpeech": "代名詞","hskLevel": 1 }, {"word": "每天","pinyin": "měitiān","meaning": "毎日","partOfSpeech": "副詞","hskLevel": 1 }, {"word": "学习","pinyin": "xuéxí","meaning": "学ぶ、勉強する","partOfSpeech": "動詞","hskLevel": 1 }, {"word": "汉语","pinyin": "hànyǔ","meaning": "中国語","partOfSpeech": "名詞","hskLevel": 1 } ]}  \n\
             ${chinese}`
         }],
         model: "gpt-3.5-turbo-0125",
@@ -120,11 +119,12 @@ async function createDictionary(dictName, dictDescription) {
     return newDict;
 }
 
-async function createSentence(chinese, japanese) {
+async function createSentence(chinese, japanese, dictionaryID) {
     const newSentence = await prisma.sentence.create({
         data: {
             chinese,
             japanese,
+            dictionaryID,
         }
     })
     return newSentence
@@ -138,8 +138,8 @@ async function createWord(word, dictionaryID, sentenceID) {
             word: word.word,
             pinyin: word.pinyin,
             meaning: word.meaning,
-            partOfSpeech: word.part_of_speech,
-            hskLevel: word.hsk_level,
+            partOfSpeech: word.partOfSpeech,
+            hskLevel: word.hskLevel,
 
             dictionaryID,
             sentenceID
