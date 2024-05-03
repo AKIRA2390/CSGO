@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    h1 word management
+    h1 Dictionary: #{dictionaryName}
+    h2 Word Management
 
     //- input(type="hidden", value=responce, name="responce")
     form(action="/delete/words" method="POST")
-        table 
+        input(type="hidden", value=dictionaryID, name="dictionaryID")
+        table(border='1')
             tr 
                 th ID 
                 th Word
@@ -14,7 +16,7 @@ block content
                 th POS 
                 th Level 
                 th Delete?
-            each word, index in dictWords
+            each word in dictWords
                 tr 
                     td= word.id
                     td= word.word 
@@ -23,9 +25,33 @@ block content
                     td= word.partOfSpeech 
                     td= word.hskLevel 
                     td 
-                        input(type="checkbox",value=word.id,name="deleteWordIDs",id=deletion)
+                        input(type="checkbox",value=word.id,name="deleteWordsIDs",id=deletion)
         button(type="submit") Delete!  
     
+    h2 Sentence Management
+    form(action="/delete/sentences" method="POST")
+        input(type="hidden", value=dictionaryID, name="dictionaryID")
+        table(border='1')
+            tr 
+                th ID 
+                th Chinese
+                th Japanese 
+                th Words 
+                th Delete?
+            each sents in dictSents
+                tr 
+                    td= sents.id
+                    td= sents.chinese 
+                    td= sents.japanese 
+                    td
+                        each word in sents.words
+                            span= word.word
+                            br
+                    td 
+                        input(type="checkbox",value=sents.id,name="deleteSentsIDs",id=deletion)
+        button(type="submit") Delete!  
+    br
+    h2 Delete Dictionary?
     form(action="/delete/Dicts" method="POST")
         input(type="hidden", value=dictionaryID, name="dictionaryID")
         button(type="submit") Delete this DICTIONARY!

@@ -20,12 +20,12 @@ router.get('/analysis', function (req, res, next) {
 /* POST  analysis. */
 router.post('/analysis', async function (req, res, next) {
     const chinese = req.body.chinese;
-    console.log(`chinese: ${chinese}\n`)
+    // console.log(`chinese: ${chinese}\n`)
 
     const completion = await askChatGPTforTranslation(chinese);
 
     const responceObject = JSON.parse(completion.choices[0].message.content);
-    console.log(responceObject);
+    // console.log(responceObject);
     // const responce = JSON.parse(responceObject).message.content;
     // console.log(responce);
     res.render('12_extracted_words', { chinese: chinese, responce: responceObject })
@@ -50,18 +50,23 @@ router.post('/analysis/selection', async function (req, res, next) {
 router.post('/analysis/selection/createDictAndAdd', async function (req, res, next) {
     const reqChinese = req.body.chinese,
         reqJapanese = req.body.japanese,
-        reqWords = JSON.parse(req.body.words).map((rowWord) => JSON.parse(rowWord)),
+        // reqWords = (JSON.parse(req.body.words)).map((rowWord) => JSON.parse(rowWord)),
         reqDictName = req.body.dictName,
         reqDictDescription = req.body.dictDescription;
-    // console.log(reqChinese);
-    // console.log(reqJapanese);
-    // console.log(reqWords);
-    // console.log(reqDictName);
-    // console.log(reqDictDescription);
-    // console.log(reqChinese);
+    let reqWords;
+    if (Array.isArray(req.body.words)) {
+        console.log("reqWords is Array!")
+        reqWords = JSON.parse(req.body.words).map((rowWord) => JSON.parse(rowWord));
+    } else {
+        console.log("reqWords is Array!")
+        reqwords = JSON.parse(req.body.words);
+    }
+
     const newDict = await createDictionary(reqDictName, reqDictDescription);
 
     const newSentence = await createSentence(reqChinese, reqJapanese, newDict.id);
+
+    console.log(reqwords);
 
     for (const word of reqWords) {
         await createWord(word, newDict.id, newSentence.id);
@@ -74,18 +79,31 @@ router.post('/analysis/selection/createDictAndAdd', async function (req, res, ne
 router.post('/analysis/selection/add2Dict', async function (req, res, next) {
     const reqChinese = req.body.chinese,
         reqJapanese = req.body.japanese,
-        reqWords = JSON.parse(req.body.words).map((rowWord) => JSON.parse(rowWord)),
-        reqDictId = req.res.dictId;
+        reqWords = JSON.parse(req.body.words),
+        reqDictId = Number(req.body.dictID);
+    console.log(reqWords);
+    // let reqWords;
+    if (Array.isArray(reqWords)) {
+        console.log("word is array!");
+        reqWords = reqWords.map((rowWord) => JSON.parse(rowWord));
+    } else {
+        console.log("word is not array!");
+        // reqWords = JSON.parse(reqWords);
+    }
+    // console.log("reqwords:");
+    // console.log(reqwords);
 
-    const dict = await prisma.dictionary.findUnique({
-        where: { id: reqDictId }
-    });
-    const newSentence = await createSentence(reqChinese, reqJapanese);
-    for (const word of reqWords) {
-        await createWord(word, dict.id, newSentence.id)
+    const newSentence = await createSentence(reqChinese, reqJapanese, reqDictId);
+    if (Array.isArray(reqWords)) {
+        for (const word of reqWords) {
+            // console.log(typeof (word));
+            await createWord(word, reqDictId, newSentence.id)
+        }
+    } else {
+        await createWord(reqWords, reqDictId, newSentence.id)
     }
 
-    res.redirect('/dicts/')
+    res.redirect(`/dicts/${reqDictId}/manage`)
 });
 
 
@@ -132,7 +150,7 @@ async function createSentence(chinese, japanese, dictionaryID) {
 
 // await createWord(reqWords, newDict.id, newSentence.id)
 async function createWord(word, dictionaryID, sentenceID) {
-    console.log(word);
+    // console.log(dictionaryID);
     const newWord = await prisma.word.create({
         data: {
             word: word.word,
@@ -147,3 +165,5 @@ async function createWord(word, dictionaryID, sentenceID) {
     })
     return newWord;
 }
+
+// async function addWordsID2Sents()
