@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1 dict selection 
+    p= dictionaries
+    
+    select(id="selectedDict",name="dictName")
+        each dict in dictionaries
+            option(value=dict.id) #{dict.name}
+    button(id="confirmation",onclick='gotoManager()') select dicts to manage
+
+    script.
+        function gotoManager() {
+            const selectedDictId = document.getElementById("selectedDict").value;
+            console.log('yay!',selectedDictId);
+            location.href=`/dicts/${selectedDictId}/manage`;
+        };

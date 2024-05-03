@@ -19,8 +19,8 @@ block content
         input(type="hidden", value=chinese, name="chinese")
         input(type="hidden", value=japanese, name="japanese")
         input(type="hidden", value=words, name="words")
-        select(name="dictName")
+        select(name="dictID")
             each dict in dictionaries
-                options(value=`${dict.name}`)
+                option(value=dict.id) #{dict.name}
         button(type="submit") add to existing dict
         

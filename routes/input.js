@@ -68,7 +68,7 @@ router.post('/analysis/selection/createDictAndAdd', async function (req, res, ne
         await createWord(word, newDict.id, newSentence.id);
     }
 
-    // res.redirect('/manager/')
+    res.redirect('/dicts/')
 
 });
 
@@ -76,16 +76,17 @@ router.post('/analysis/selection/add2Dict', async function (req, res, next) {
     const reqChinese = req.body.chinese,
         reqJapanese = req.body.japanese,
         reqWords = JSON.parse(req.body.words).map((rowWord) => JSON.parse(rowWord)),
-        reqDictName = req.res.dictName;
+        reqDictId = req.res.dictId;
 
-    const dict = await prisma.dictionary.findFirst({
-        name: reqDictName
+    const dict = await prisma.dictionary.findUnique({
+        where:{id: reqDictId}
     });
     const newSentence = await createSentence(reqChinese, reqJapanese);
     for (const word of reqWords) {
         await createWord(word, dict.id, newSentence.id)
     }
 
+    res.redirect('/dicts/')
 });
 
 
