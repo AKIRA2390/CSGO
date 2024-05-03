@@ -1,11 +1,26 @@
-doctype html
-html
-    head
-        meta(charset='utf-8')
-        title dict selection 
-    body
-        h1 dict selection 
-        p= sentence  
-        p= responce 
-        p= index 
-        p= dictionaries
+extends layout
+
+block content
+    h1 dict selection 
+    p= chinese  
+    p= japanese  
+    p= words 
+    p= dictionaries
+    
+    form(action="/input/analysis/selection/createDictAndAdd" method="POST")
+        input(type="hidden", value=chinese, name="chinese")
+        input(type="hidden", value=japanese, name="japanese")
+        input(type="hidden", value=words, name="words")
+        input(type="text", name="dictName") 
+        input(type="text", name="dictDescription") 
+        button(type="submit") create new dict
+
+    form(action="/input/analysis/add2Dict" method="POST")
+        input(type="hidden", value=chinese, name="chinese")
+        input(type="hidden", value=japanese, name="japanese")
+        input(type="hidden", value=words, name="words")
+        select(name="dictName")
+            each dict in dictionaries
+                options(value=`${dict.name}`)
+        button(type="submit") add to existing dict
+        

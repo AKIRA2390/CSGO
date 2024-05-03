@@ -2,10 +2,11 @@ extends layout
 
 block content
     form(action="/input/analysis/selection" method="POST")
-        input(type="hidden", value=sentence, name="sentence")
-        input(type="hidden", value=responce, name="responce")
-        p= sentence
-        p= responce.translation
+        input(type="hidden", value=chinese, name="chinese")
+        input(type="hidden", value=responce.japanese, name="japanese")
+        //- input(type="hidden", value=responce, name="responce")
+        p= chinese
+        p= responce.japanese
         table 
             tr 
                 th ID 
@@ -24,11 +25,11 @@ block content
                     td= word.part_of_speech 
                     td= word.hsk_level 
                     td 
-                        input(type="checkbox",value=index,name="index")
+                        input(type="checkbox",value=word,name="words")
         button(type="submit") Add!  
     
     form(action="/input/analysis" method="POST")
-        input(type="hidden", value=word, name="sentence")
+        input(type="hidden", value=chinese, name="chinese")
 
         button(type="submit") regenerate 
 

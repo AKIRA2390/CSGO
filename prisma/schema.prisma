@@ -11,10 +11,23 @@ datasource db {
 }
 
 model Dictionary {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
-  words Word[]
+  words       Word[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sentence {
+  id       Int    @id @default(autoincrement())
+  chinese  String
+  japanese String
+  words    Word[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Word {
@@ -25,14 +38,11 @@ model Word {
   partOfSpeech String
   hskLevel     Int
 
-  sentenceID   Int
-  sentence     Sentence  @relation(fields: [sentenceID], references: [id])
   dictionaryID Int
   dictionary   Dictionary @relation(fields: [dictionaryID], references: [id])
-}
+  sentenceID   Int
+  sentence     Sentence   @relation(fields: [sentenceID], references: [id])
 
-model Sentence {
-  id    Int    @id @default(autoincrement())
-  text  String
-  words Word[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
