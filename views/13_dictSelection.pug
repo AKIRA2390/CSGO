@@ -11,15 +11,15 @@ block content
         input(type="hidden", value=chinese, name="chinese")
         input(type="hidden", value=japanese, name="japanese")
         input(type="hidden", value=words, name="words")
-        input(type="text", name="dictName") 
-        input(type="text", name="dictDescription") 
+        input(type="text", name="dictName",placeholder="dictName", required) 
+        input(type="text", name="dictDescription", placeholder="dictDescription",required) 
         button(type="submit") create new dict
 
     form(action="/input/analysis/selection/add2Dict" method="POST")
         input(type="hidden", value=chinese, name="chinese")
         input(type="hidden", value=japanese, name="japanese")
         input(type="hidden", value=words, name="words")
-        select(name="dictID")
+        select(name="dictID", required)
             each dict in dictionaries
                 option(value=dict.id) #{dict.name}
         button(type="submit") add to existing dict

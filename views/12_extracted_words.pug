@@ -25,7 +25,7 @@ block content
                     td= word.partOfSpeech 
                     td= word.hskLevel 
                     td 
-                        input(type="checkbox",value=word,name="words")
+                        input.checkbox(type="checkbox",value=word,name="words")
         button(type="submit") Add!  
     
     form(action="/input/analysis" method="POST")

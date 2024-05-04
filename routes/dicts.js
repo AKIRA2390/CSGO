@@ -12,9 +12,9 @@ router.get('/', async function (req, res, next) {
 
 router.get('/:dictID/manage', async function (req, res, next) {
     const dictionaryID = Number(req.params.dictID);
-    const dictionaryName = (await prisma.dictionary.findFirst({
+    const dictionaryObj = (await prisma.dictionary.findFirst({
         where: { id: dictionaryID }
-    })).name;
+    }));
     const dictWords = await prisma.word.findMany({
         where: { dictionaryID }
     });
@@ -23,9 +23,9 @@ router.get('/:dictID/manage', async function (req, res, next) {
         include: { words: true, },
         where: { dictionaryID }
     });
-    console.log(dictionaryName);
+    console.log(dictionaryObj);
     // console.log(dictSents.map((sents) => console.log(sents.words));
-    res.render('22_dictContents', { dictWords, dictSents, dictionaryID, dictionaryName });
+    res.render('22_dictContents', { dictWords, dictSents, dictionaryID, dictionaryObj });
 });
 
 

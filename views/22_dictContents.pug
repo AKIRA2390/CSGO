@@ -1,7 +1,10 @@
 extends layout
 
 block content
-    h1 Dictionary Name: #{dictionaryName}
+    h1 Dict Name: 
+    p= dictionaryObj.name
+    h1 Dict Description: 
+    p= dictionaryObj.description
     h2 Word Management
 
     //- input(type="hidden", value=responce, name="responce")
@@ -9,37 +12,39 @@ block content
         input(type="hidden", value=dictionaryID, name="dictionaryID")
         table(border='1')
             tr 
+                th 
                 th ID 
                 th Word
                 th PinYin 
                 th Meaning 
                 th POS 
                 th Level 
-                th Delete?
             each word in dictWords
                 tr 
+                    td 
+                        input.checkbox(type="checkbox",value=word.id,name="deleteWordsIDs",id=deletion)
                     td= word.id
                     td= word.word 
                     td= word.pinyin 
                     td= word.meaning 
                     td= word.partOfSpeech 
                     td= word.hskLevel 
-                    td 
-                        input(type="checkbox",value=word.id,name="deleteWordsIDs",id=deletion)
-        button(type="submit") Delete!  
+        button(type="submit") Delete Selected!  
     
     h2 Sentence Management
     form(action="/delete/sentences" method="POST")
         input(type="hidden", value=dictionaryID, name="dictionaryID")
         table(border='1')
             tr 
+                th 
                 th ID 
                 th Chinese
                 th Japanese 
                 th Words 
-                th Delete?
             each sents in dictSents
                 tr 
+                    td 
+                        input.checkbox(type="checkbox",value=sents.id,name="deleteSentsIDs",id=deletion)
                     td= sents.id
                     td= sents.chinese 
                     td= sents.japanese 
@@ -47,9 +52,7 @@ block content
                         each word in sents.words
                             span= word.word
                             br
-                    td 
-                        input(type="checkbox",value=sents.id,name="deleteSentsIDs",id=deletion)
-        button(type="submit") Delete!  
+        button(type="submit") Delete Selected!  
     br
     h2 Delete Dictionary?
     form(action="/delete/Dicts" method="POST")

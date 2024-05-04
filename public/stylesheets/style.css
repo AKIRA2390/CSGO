@@ -1,8 +1,59 @@
+:root {
+  --charaPx: 3.9vw;
+  /* --charaPx: 5svh; */
+  --marginEm: 0.05em
+}
+
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: var(--charaPx);
+  font: var(--charaPx) "Lucida Grande", Helvetica, Arial, sans-serif;
+  word-break: auto-phrase;
+}
+
+h1,
+h2 {
+  /* margin-top: var(--marginEm); */
+  margin-bottom: var(--marginEm);
+}
+
+p {
+  margin-top: var(--marginEm);
+  margin-bottom: var(--marginEm);
+}
+
+link {
+  margin-top: var(--marginEm);
 }
 
 a {
   color: #00B7FF;
+}
+
+button {
+  font-size: var(--charaPx)
+}
+
+textarea {
+  font-size: var(--charaPx)
+}
+
+select {
+  font-size: var(--charaPx)
+}
+
+input[type=checkbox] {
+  width: 45px;
+  height: 45px;
+}
+
+input[type="text"] {
+  /* padding: 20px 10px;
+  line-height: var(--charaPx); */
+  font-size: var(--charaPx)
+}
+
+.upup {
+  display: flex;
+  align-items: flex-start;
 }

@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    form(action="/input/analysis" method="POST")
+    form.upup(action="/input/analysis" method="POST")
         label(for="chinese") Chinese: 
-        input(type="text", id="chinese", name="chinese")
-
+        textarea(name="chinese",rows="4" cols="40" autofocus) 你好！
+        //- (type="text", id="chinese", name="chinese")
+        br
         button(type="submit") Submit 
