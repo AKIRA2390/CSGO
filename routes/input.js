@@ -48,55 +48,72 @@ router.post('/analysis/selection', async function (req, res, next) {
 });
 
 router.post('/analysis/selection/createDictAndAdd', async function (req, res, next) {
-    const reqChinese = req.body.chinese,
+    var reqChinese = req.body.chinese,
         reqJapanese = req.body.japanese,
-        // reqWords = (JSON.parse(req.body.words)).map((rowWord) => JSON.parse(rowWord)),
+        reqWords = JSON.parse(req.body.words),
         reqDictName = req.body.dictName,
         reqDictDescription = req.body.dictDescription;
-    let reqWords;
-    if (Array.isArray(req.body.words)) {
+
+    // let reqWords = req.body.words;
+    if (Array.isArray(reqWords)) {
         console.log("reqWords is Array!")
-        reqWords = JSON.parse(req.body.words).map((rowWord) => JSON.parse(rowWord));
+        // console.log(reqWords)
+        reqWords = (reqWords).map((rowWord) => JSON.parse(rowWord));
     } else {
-        console.log("reqWords is Array!")
-        reqwords = JSON.parse(req.body.words);
+        console.log("reqWords is NOT Array!")
+        // reqWords = JSON.parse(JSON.parse(reqWords));
     }
+
+    console.log("reqWords:");
+    console.log(reqWords);
 
     const newDict = await createDictionary(reqDictName, reqDictDescription);
-
     const newSentence = await createSentence(reqChinese, reqJapanese, newDict.id);
 
-    console.log(reqwords);
-
-    for (const word of reqWords) {
-        await createWord(word, newDict.id, newSentence.id);
+    if (Array.isArray(reqWords)) {
+        for (const word of reqWords) {
+            await createWord(word, newDict.id, newSentence.id);
+        }
+    } else {
+        console.log("reqWords is NOT Array!")
+        await createWord(reqWords, newDict.id, newSentence.id);
     }
 
-    res.redirect('/dicts/')
-
+    res.redirect(`/dicts/${newDict.id}/manage`)
 });
 
 router.post('/analysis/selection/add2Dict', async function (req, res, next) {
-    const reqChinese = req.body.chinese,
+    console.log("add2Dict!");
+    var reqChinese = req.body.chinese,
         reqJapanese = req.body.japanese,
+        // reqWords = JSON.parse([req.body.words]).map((rowWord) => JSON.parse(rowWord)),
         reqWords = JSON.parse(req.body.words),
+        // reqWords = req.body.words,
         reqDictId = Number(req.body.dictID);
+
     console.log(reqWords);
+    console.log(typeof (reqWords));
+    console.log(Array.isArray(reqWords));
     // let reqWords;
+    // reqWords = reqWords.map((rowWord) => JSON.parse(rowWord));
+    //console.log(reqWords);
+
     if (Array.isArray(reqWords)) {
-        console.log("word is array!");
-        reqWords = reqWords.map((rowWord) => JSON.parse(rowWord));
+        console.log("reqWords is array!");
+        // reqWords = reqWords.map((rowWord) => JSON.parse(rowWord))
+        reqWords = (reqWords).map((rowWord) => JSON.parse(rowWord));
     } else {
-        console.log("word is not array!");
-        // reqWords = JSON.parse(reqWords);
+        console.log("reqWords is not array!");
+        // reqWords = (JSON.parse(reqWords));
     }
-    // console.log("reqwords:");
-    // console.log(reqwords);
+
+    console.log("reqWords:");
+    console.log(reqWords);
 
     const newSentence = await createSentence(reqChinese, reqJapanese, reqDictId);
+
     if (Array.isArray(reqWords)) {
         for (const word of reqWords) {
-            // console.log(typeof (word));
             await createWord(word, reqDictId, newSentence.id)
         }
     } else {
@@ -150,7 +167,10 @@ async function createSentence(chinese, japanese, dictionaryID) {
 
 // await createWord(reqWords, newDict.id, newSentence.id)
 async function createWord(word, dictionaryID, sentenceID) {
-    // console.log(dictionaryID);
+    console.log("word:");
+    console.log(word);
+    console.log(word.word);
+    // word = JSON.parse(word)
     const newWord = await prisma.word.create({
         data: {
             word: word.word,
