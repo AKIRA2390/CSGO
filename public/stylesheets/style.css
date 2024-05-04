@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Noto+Serif+SC&display=swap');
+
 :root {
   --charaPx: 3.9vw;
   /* --charaPx: 5svh; */
@@ -9,6 +11,10 @@ body {
   padding: var(--charaPx);
   font: var(--charaPx) "Lucida Grande", Helvetica, Arial, sans-serif;
   word-break: auto-phrase;
+  font-family: "Noto Sans SC" sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
 }
 
 h1,
@@ -35,7 +41,10 @@ button {
 }
 
 textarea {
-  font-size: var(--charaPx)
+  font-size: var(--charaPx);
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 select {
@@ -50,10 +59,38 @@ input[type=checkbox] {
 input[type="text"] {
   /* padding: 20px 10px;
   line-height: var(--charaPx); */
-  font-size: var(--charaPx)
+  font-size: var(--charaPx);
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td,
+th {
+  /* font-family: "Noto Sans SC", sans-serif;
+  font-weight: 400;
+  font-style: normal; */
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .upup {
   display: flex;
   align-items: flex-start;
+}
+
+.SentenceWordWidth {
+  table-layout: fixed;
+  padding: 3vw
+}
+
+.noto-serif-sc-regular {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }

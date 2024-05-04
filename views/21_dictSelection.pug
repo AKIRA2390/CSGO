@@ -9,7 +9,6 @@ block content
             li= dict.name
     
     select(id="selectedDict",name="dictName")
-        option(value="" selected) DEFAULT_NONE
         each dict in dictionaries
             option(value=dict.id) #{dict.name}
     button(id="confirmation",onclick='gotoManager()') Select Dicts To Manage

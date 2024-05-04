@@ -1,11 +1,7 @@
 extends layout
 
 block content
-    h1 dict selection 
-    p= chinese  
-    p= japanese  
-    p= words 
-    p= dictionaries
+    h1 Dict Selection
     
     form(action="/input/analysis/selection/createDictAndAdd" method="POST")
         input(type="hidden", value=chinese, name="chinese")
